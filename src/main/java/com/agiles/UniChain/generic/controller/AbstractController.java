@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 @RestController
 @RequiredArgsConstructor
@@ -39,14 +40,14 @@ public abstract class AbstractController<E extends BaseEntity, D extends IDto, S
 
     @Override
     @PostMapping("/create")
-    public ResponseEntity<String> create(@Valid @RequestBody D dto) {
+    public ResponseEntity<String> create(@Valid @RequestBody D dto) throws IOException {
         service.create(dto);
         return ResponseEntity.ok("Created Successfully");
     }
 
     @Override
     @PutMapping("{id}")
-    public ResponseEntity<String> update(@Valid @RequestBody D dto, @PathVariable Long id) {
+    public ResponseEntity<String> update(@Valid @RequestBody D dto, @PathVariable Long id) throws IOException {
         service.update(dto, id);
         return ResponseEntity.ok("Updated Successfully");
     }

@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -43,7 +44,7 @@ public abstract class AbstractService<E extends BaseEntity, D extends IDto, S ex
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public E create(D d) {
+    public E create(D d) throws IOException {
         checkStringSize(d);
         validateClientData(d, null);
         return saveItem(convertToEntity(d));
@@ -51,7 +52,7 @@ public abstract class AbstractService<E extends BaseEntity, D extends IDto, S ex
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public E update(D d, Long id) {
+    public E update(D d, Long id) throws IOException {
         E e = findById(id);
         checkStringSize(d);
         validateClientData(d, e);
@@ -119,9 +120,9 @@ public abstract class AbstractService<E extends BaseEntity, D extends IDto, S ex
 
     protected abstract <T extends BaseResponseDto> T convertToResponseDto(E e);
 
-    protected abstract E convertToEntity(D d);
+    protected abstract E convertToEntity(D d) throws IOException;
 
-    protected abstract E updateEntity(D d, E entity);
+    protected abstract E updateEntity(D d, E entity) throws IOException;
 
     @Override
     public ResponseEntity<List<Object>> getAll() {

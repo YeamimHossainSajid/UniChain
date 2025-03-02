@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface IController<D extends IDto> {
@@ -17,9 +18,9 @@ public interface IController<D extends IDto> {
 
     ResponseEntity<List<Object>> getAll();
 
-    ResponseEntity<String> create(D d);
+    ResponseEntity<String> create(D d) throws IOException;
 
-    ResponseEntity<String> update(D d, Long id);
+    ResponseEntity<String> update(D d, Long id) throws IOException;
 
     ResponseEntity<String> updateActiveStatus(@PathVariable Long id, Boolean isActive);
     ResponseEntity<String> batchActiveStatus(GenericIdsDto ids);

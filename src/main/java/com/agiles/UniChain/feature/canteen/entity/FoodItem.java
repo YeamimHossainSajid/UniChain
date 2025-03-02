@@ -21,6 +21,7 @@ public class FoodItem extends BaseEntity {
     private String preparationMethod;
     private String quantity;
     private Boolean available;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)

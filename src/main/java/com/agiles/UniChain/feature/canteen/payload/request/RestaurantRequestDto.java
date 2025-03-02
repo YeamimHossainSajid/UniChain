@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -19,7 +20,6 @@ public class RestaurantRequestDto implements IDto {
     private String contactNumber2;
     private String email;
     private String isOpen;
-
-
+    MultipartFile image;
 
 }

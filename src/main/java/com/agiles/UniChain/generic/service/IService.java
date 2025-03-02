@@ -9,14 +9,15 @@ import com.agiles.UniChain.generic.payload.response.PageData;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 public interface IService<E extends BaseEntity, D extends IDto, S extends SDto> {
 
-    E create(D d);
+    E create(D d) throws IOException;
 
-    E update(D d, Long id);
+    E update(D d, Long id) throws IOException;
 
     <T extends BaseResponseDto> T getSingle(Long id);
 

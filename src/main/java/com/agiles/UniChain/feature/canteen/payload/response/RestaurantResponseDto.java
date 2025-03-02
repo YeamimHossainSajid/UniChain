@@ -22,6 +22,7 @@ public class RestaurantResponseDto extends BaseResponseDto {
     private String contactNumber2;
     private String email;
     private String isOpen;
+    private String imageUrl;
 
     private List<FoodItemResponseDto> foodItems;
 }

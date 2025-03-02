@@ -24,6 +24,7 @@ public class Restaurant extends BaseEntity {
     private String contactNumber2;
     private String email;
     private String isOpen;
+    private String image;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FoodItem> foodItems = new ArrayList<>();
