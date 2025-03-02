@@ -1,5 +1,6 @@
 package com.agiles.UniChain.feature.canteen.entity;
 
+import com.agiles.UniChain.auth.model.User;
 import com.agiles.UniChain.generic.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,9 @@ public class Restaurant extends BaseEntity {
     private String email;
     private String isOpen;
     private String image;
+
+    @OneToOne( mappedBy = "restaurant" , cascade = CascadeType.ALL)
+    private User user;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FoodItem> foodItems = new ArrayList<>();

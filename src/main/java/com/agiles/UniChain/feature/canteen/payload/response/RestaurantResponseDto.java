@@ -1,5 +1,6 @@
 package com.agiles.UniChain.feature.canteen.payload.response;
 
+import com.agiles.UniChain.auth.model.User;
 import com.agiles.UniChain.generic.payload.response.BaseResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class RestaurantResponseDto extends BaseResponseDto {
     private String email;
     private String isOpen;
     private String imageUrl;
+    private User user;
 
     private List<FoodItemResponseDto> foodItems;
 }

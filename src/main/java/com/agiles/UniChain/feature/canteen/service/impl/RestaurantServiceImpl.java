@@ -1,5 +1,7 @@
 package com.agiles.UniChain.feature.canteen.service.impl;
 
+import com.agiles.UniChain.auth.model.User;
+import com.agiles.UniChain.auth.repository.UserRepo;
 import com.agiles.UniChain.config.image.service.CloudneryImageService;
 import com.agiles.UniChain.feature.canteen.entity.Restaurant;
 import com.agiles.UniChain.feature.canteen.payload.request.RestaurantRequestDto;
@@ -26,6 +28,8 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
 
     @Autowired
     CloudneryImageService cloudneryImageService;
+    @Autowired
+    UserRepo userRepo;
 
     public RestaurantServiceImpl(AbstractRepository<Restaurant> repository) {
         super(repository);
@@ -62,6 +66,11 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
                 }).collect(Collectors.toList());
 
         responseDto.setFoodItems(foodItems);
+
+        if (restaurant.getUser() != null) {
+            responseDto.setUser(restaurant.getUser());
+        }
+
         return responseDto;
     }
 
@@ -85,6 +94,7 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
         entity.setContactNumber2(restaurantRequestDto.getContactNumber2());
         entity.setEmail(restaurantRequestDto.getEmail());
         entity.setIsOpen(restaurantRequestDto.getIsOpen());
+        entity.setUser(userRepo.findById(restaurantRequestDto.getUserId()).get());
 
         return entity;
     }

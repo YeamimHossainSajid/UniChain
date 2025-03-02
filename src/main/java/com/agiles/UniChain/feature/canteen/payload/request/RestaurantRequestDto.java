@@ -21,5 +21,6 @@ public class RestaurantRequestDto implements IDto {
     private String email;
     private String isOpen;
     MultipartFile image;
+    private Long userId;
 
 }

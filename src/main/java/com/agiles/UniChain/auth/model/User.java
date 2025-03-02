@@ -1,5 +1,6 @@
 package com.agiles.UniChain.auth.model;
 
+import com.agiles.UniChain.feature.canteen.entity.Restaurant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -31,6 +32,10 @@ public class User {
     @Column( nullable = false )
     @NotEmpty
     private String password;
+
+    @OneToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
 
     @ManyToMany(
