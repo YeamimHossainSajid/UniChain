@@ -11,5 +11,4 @@ public class UniChainApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UniChainApplication.class, args);
 	}
-
 }
