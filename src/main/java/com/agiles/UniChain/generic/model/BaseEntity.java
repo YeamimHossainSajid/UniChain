@@ -1,4 +1,5 @@
 package com.agiles.UniChain.generic.model;
+
 import com.agiles.UniChain.auth.model.User;
 import com.agiles.UniChain.generic.utils.Helper;
 import jakarta.persistence.*;
@@ -9,8 +10,6 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 
 @MappedSuperclass
 @Setter
@@ -63,25 +62,4 @@ public class BaseEntity {
         this.updatedTime = LocalDateTime.now();
     }
 
-    //This part is for Audit Log
-//    public ConcurrentHashMap< String, Object > getEntityMap( String operationType, String userName ) {
-//        ConcurrentHashMap< String, Object > resultMap = new ConcurrentHashMap<>();
-//        resultMap.put( ApplicationConstant.IS_ACTIVE_FIELD, this.getIsActive() );
-//        resultMap.put( ApplicationConstant.CREATED_AT_FIELD, Objects.nonNull( this.getCreatedTime() ) ?
-//                this.getCreatedTime() : LocalDateTime.now() );
-//        resultMap.put( ApplicationConstant.CREATED_BY_FIELD, Objects.nonNull( this.getCreatedBy() )
-//                ? this.getCreatedBy().getUsername() : "Anonymous" );
-//        // resultMap.put(ApplicationConstant.ID, this.getId());
-//
-//        if ( Objects.isNull( this.getUpdatedTime() ) && AuditOperation.UPDATE.name().equalsIgnoreCase( operationType ) ) {
-//            resultMap.put( ApplicationConstant.MODIFIED_AT_FIELD, LocalDateTime.now() );
-//            resultMap.put( ApplicationConstant.MODIFIED_BY_FIELD, userName );
-//        } else if ( Objects.nonNull( this.getUpdatedTime() ) && AuditOperation.UPDATE.name().equalsIgnoreCase( operationType ) ) {
-//            resultMap.put( ApplicationConstant.MODIFIED_AT_FIELD, this.getUpdatedTime() );
-//            resultMap.put( ApplicationConstant.MODIFIED_BY_FIELD, Objects.nonNull( this.getUpdatedBy() )
-//                    ? this.getUpdatedBy().getUsername() : "Anonymous" );
-//        }
-
-//        return resultMap;
-//    }
 }
