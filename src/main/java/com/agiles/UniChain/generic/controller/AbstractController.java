@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 public abstract class AbstractController<E extends BaseEntity, D extends IDto, S extends SDto> implements IController<D> {
@@ -27,7 +26,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends IDto, S
     }
 
     @Override
-    @GetMapping()
+    @GetMapping("{id}")
     public <T extends BaseResponseDto> T getSingle(@PathVariable Long id) {
         return service.getSingle(id);
     }
@@ -39,14 +38,14 @@ public abstract class AbstractController<E extends BaseEntity, D extends IDto, S
     }
 
     @Override
-    @PostMapping()
+    @PostMapping("/create")  // Changed path to avoid ambiguity
     public ResponseEntity<String> create(@Valid @RequestBody D dto) {
         service.create(dto);
         return ResponseEntity.ok("Created Successfully");
     }
 
     @Override
-    @PutMapping()
+    @PutMapping("{id}")
     public ResponseEntity<String> update(@Valid @RequestBody D dto, @PathVariable Long id) {
         service.update(dto, id);
         return ResponseEntity.ok("Updated Successfully");
@@ -66,7 +65,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends IDto, S
     }
 
     @Override
-    @PostMapping()
+    @PostMapping("/batch-status")  // Changed path to avoid ambiguity
     public ResponseEntity<String> batchActiveStatus(@RequestBody GenericIdsDto ids) {
         service.batchActiveStatus(ids);
         return ResponseEntity.ok("Active status changed successfully");

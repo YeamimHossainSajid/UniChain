@@ -1,6 +1,7 @@
 package com.agiles.UniChain.feature.canteen.payload.response;
 
 import com.agiles.UniChain.generic.payload.request.SDto;
+import com.agiles.UniChain.generic.payload.response.BaseResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FoodItemResponseDto extends SDto {
+public class FoodItemResponseDto extends BaseResponseDto {
 
     private String name;
     private double price;
