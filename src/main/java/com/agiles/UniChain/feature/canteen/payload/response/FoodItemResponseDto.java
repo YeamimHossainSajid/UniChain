@@ -13,6 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FoodItemResponseDto extends BaseResponseDto {
 
+    private Long id;
     private String name;
     private double price;
     private String shortDescription;
@@ -20,6 +21,6 @@ public class FoodItemResponseDto extends BaseResponseDto {
     private String preparationMethod;
     private String quantity;
     private Boolean available;
-    private Long restaurantId;
+    private RestaurantResponseDto restaurant;
 
 }

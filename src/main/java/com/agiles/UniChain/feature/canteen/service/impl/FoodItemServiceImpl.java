@@ -4,6 +4,7 @@ import com.agiles.UniChain.feature.canteen.entity.FoodItem;
 import com.agiles.UniChain.feature.canteen.entity.Restaurant;
 import com.agiles.UniChain.feature.canteen.payload.request.FoodItemRequestDto;
 import com.agiles.UniChain.feature.canteen.payload.response.FoodItemResponseDto;
+import com.agiles.UniChain.feature.canteen.payload.response.RestaurantResponseDto;
 import com.agiles.UniChain.feature.canteen.repository.RestaurantRepository;
 import com.agiles.UniChain.feature.canteen.service.FoodItemService;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
@@ -32,9 +33,25 @@ public class FoodItemServiceImpl extends AbstractService<FoodItem, FoodItemReque
         responseDto.setPreparationMethod(foodItem.getPreparationMethod());
         responseDto.setQuantity(foodItem.getQuantity());
         responseDto.setAvailable(foodItem.getAvailable());
-        responseDto.setRestaurantId(foodItem.getRestaurant().getId());
+
+        if (foodItem.getRestaurant() != null) {
+            RestaurantResponseDto restaurantDto = new RestaurantResponseDto();
+            restaurantDto.setId(foodItem.getRestaurant().getId());
+            restaurantDto.setName(foodItem.getRestaurant().getName());
+            restaurantDto.setDescription(foodItem.getRestaurant().getDescription());
+            restaurantDto.setLocation(foodItem.getRestaurant().getLocation());
+            restaurantDto.setContactNumber(foodItem.getRestaurant().getContactNumber());
+            restaurantDto.setContactNumber2(foodItem.getRestaurant().getContactNumber2());
+            restaurantDto.setEmail(foodItem.getRestaurant().getEmail());
+            restaurantDto.setIsOpen(foodItem.getRestaurant().getIsOpen());
+
+            responseDto.setRestaurant(restaurantDto);
+        }
+
         return responseDto;
     }
+
+
 
     @Override
     protected FoodItem convertToEntity(FoodItemRequestDto foodItemRequestDto) {

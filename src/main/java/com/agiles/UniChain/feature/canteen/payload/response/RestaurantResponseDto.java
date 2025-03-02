@@ -1,11 +1,12 @@
 package com.agiles.UniChain.feature.canteen.payload.response;
 
-import com.agiles.UniChain.generic.payload.request.SDto;
 import com.agiles.UniChain.generic.payload.response.BaseResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,6 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RestaurantResponseDto extends BaseResponseDto {
 
+    private Long id;
     private String name;
     private String description;
     private String location;
@@ -21,4 +23,5 @@ public class RestaurantResponseDto extends BaseResponseDto {
     private String email;
     private String isOpen;
 
+    private List<FoodItemResponseDto> foodItems;
 }
