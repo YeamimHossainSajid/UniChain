@@ -38,7 +38,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends IDto, S
     }
 
     @Override
-    @PostMapping("/create")  // Changed path to avoid ambiguity
+    @PostMapping("/create")
     public ResponseEntity<String> create(@Valid @RequestBody D dto) {
         service.create(dto);
         return ResponseEntity.ok("Created Successfully");
@@ -65,7 +65,7 @@ public abstract class AbstractController<E extends BaseEntity, D extends IDto, S
     }
 
     @Override
-    @PostMapping("/batch-status")  // Changed path to avoid ambiguity
+    @PostMapping("/batch-status")
     public ResponseEntity<String> batchActiveStatus(@RequestBody GenericIdsDto ids) {
         service.batchActiveStatus(ids);
         return ResponseEntity.ok("Active status changed successfully");

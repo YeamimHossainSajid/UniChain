@@ -1,11 +1,12 @@
 package com.agiles.UniChain.feature.canteen.service.impl;
 
 import com.agiles.UniChain.feature.canteen.entity.FoodItem;
+import com.agiles.UniChain.feature.canteen.entity.Restaurant;
 import com.agiles.UniChain.feature.canteen.payload.request.FoodItemRequestDto;
 import com.agiles.UniChain.feature.canteen.payload.response.FoodItemResponseDto;
+import com.agiles.UniChain.feature.canteen.repository.RestaurantRepository;
 import com.agiles.UniChain.feature.canteen.service.FoodItemService;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
-import com.agiles.UniChain.generic.payload.response.BaseResponseDto;
 import com.agiles.UniChain.generic.repository.AbstractRepository;
 import com.agiles.UniChain.generic.service.AbstractService;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,13 +15,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class FoodItemServiceImpl extends AbstractService<FoodItem, FoodItemRequestDto, GenericSearchDto> implements FoodItemService {
 
-    public FoodItemServiceImpl(AbstractRepository<FoodItem> foodItemRepository) {
+    private final RestaurantRepository restaurantRepository;
+
+    public FoodItemServiceImpl(AbstractRepository<FoodItem> foodItemRepository, RestaurantRepository restaurantRepository) {
         super(foodItemRepository);
+        this.restaurantRepository = restaurantRepository;
     }
 
     @Override
     protected FoodItemResponseDto convertToResponseDto(FoodItem foodItem) {
-
         FoodItemResponseDto responseDto = new FoodItemResponseDto();
         responseDto.setName(foodItem.getName());
         responseDto.setPrice(foodItem.getPrice());
@@ -29,19 +32,17 @@ public class FoodItemServiceImpl extends AbstractService<FoodItem, FoodItemReque
         responseDto.setPreparationMethod(foodItem.getPreparationMethod());
         responseDto.setQuantity(foodItem.getQuantity());
         responseDto.setAvailable(foodItem.getAvailable());
-
-        return  responseDto;
+        responseDto.setRestaurantId(foodItem.getRestaurant().getId());
+        return responseDto;
     }
 
     @Override
     protected FoodItem convertToEntity(FoodItemRequestDto foodItemRequestDto) {
-        // Convert the request DTO to FoodItem entity
         return updateEntity(foodItemRequestDto, new FoodItem());
     }
 
     @Override
     protected FoodItem updateEntity(FoodItemRequestDto foodItemRequestDto, FoodItem entity) {
-        // Update the fields of the existing entity with data from the request DTO
         entity.setName(foodItemRequestDto.getName());
         entity.setPrice(foodItemRequestDto.getPrice());
         entity.setShortDescription(foodItemRequestDto.getShortDescription());
@@ -49,13 +50,18 @@ public class FoodItemServiceImpl extends AbstractService<FoodItem, FoodItemReque
         entity.setPreparationMethod(foodItemRequestDto.getPreparationMethod());
         entity.setQuantity(foodItemRequestDto.getQuantity());
         entity.setAvailable(foodItemRequestDto.getAvailable());
+        if (foodItemRequestDto.getRestaurantId() != null) {
+            Restaurant restaurant = restaurantRepository.findById(foodItemRequestDto.getRestaurantId())
+                    .orElseThrow(() -> new RuntimeException("Restaurant not found with ID: " + foodItemRequestDto.getRestaurantId()));
+            entity.setRestaurant(restaurant);
+        }
 
         return entity;
     }
 
     @Override
     protected Specification<FoodItem> buildSpecification(GenericSearchDto searchDto) {
-
         return null;
     }
 }
+

@@ -23,7 +23,7 @@ public class FoodItem extends BaseEntity {
     private Boolean available;
 
     @ManyToOne
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
-
 }
 

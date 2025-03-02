@@ -20,8 +20,4 @@ public class FoodItemController extends AbstractController<FoodItem, FoodItemReq
         super(service);
     }
 
-    @GetMapping("get")
-    public PageData getAll(Boolean isActive, Pageable pageable) {
-        return null;
-    }
 }

@@ -20,5 +20,6 @@ public class FoodItemResponseDto extends BaseResponseDto {
     private String preparationMethod;
     private String quantity;
     private Boolean available;
+    private Long restaurantId;
 
 }

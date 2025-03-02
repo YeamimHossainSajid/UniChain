@@ -19,5 +19,6 @@ public class FoodItemRequestDto implements IDto {
     private String preparationMethod;
     private String quantity;
     private Boolean available;
+    private Long restaurantId;
 
 }

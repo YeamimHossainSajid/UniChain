@@ -21,4 +21,5 @@ public class RestaurantRequestDto implements IDto {
     private String isOpen;
 
 
+
 }

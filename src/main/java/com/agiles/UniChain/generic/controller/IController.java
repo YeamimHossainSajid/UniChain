@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface IController<D extends IDto> {
 
-    PageData getAll(Boolean isActive, Pageable pageable);
+//    PageData getAll(Boolean isActive, Pageable pageable);
 
     <T extends BaseResponseDto>T getSingle(Long id);
 

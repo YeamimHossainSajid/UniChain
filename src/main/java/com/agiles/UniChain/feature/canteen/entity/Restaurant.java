@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -24,7 +25,17 @@ public class Restaurant extends BaseEntity {
     private String email;
     private String isOpen;
 
-    @OneToMany(mappedBy = "restaurant")
-    private List<FoodItem> foodItems;
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FoodItem> foodItems = new ArrayList<>();
 
+    public void addFoodItem(FoodItem foodItem) {
+        foodItems.add(foodItem);
+        foodItem.setRestaurant(this);
+    }
+
+    public void removeFoodItem(FoodItem foodItem) {
+        foodItems.remove(foodItem);
+        foodItem.setRestaurant(null);
+    }
 }
+
