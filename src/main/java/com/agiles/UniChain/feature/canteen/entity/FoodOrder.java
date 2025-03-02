@@ -1,5 +1,6 @@
 package com.agiles.UniChain.feature.canteen.entity;
 
+import com.agiles.UniChain.generic.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class FoodOrder {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class FoodOrder extends BaseEntity {
 
     @ManyToOne
     private FoodItem foodItem;
