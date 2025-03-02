@@ -1,6 +1,5 @@
 package com.agiles.UniChain.auth.service;
 
-
 import com.agiles.UniChain.auth.dto.response.CustomRoleResponseDTO;
 
 public interface RoleService {

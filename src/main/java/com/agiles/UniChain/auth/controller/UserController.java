@@ -2,19 +2,14 @@ package com.agiles.UniChain.auth.controller;
 
 import com.agiles.UniChain.auth.dto.request.UserRequestDTO;
 import com.agiles.UniChain.auth.dto.request.UserRoleRequestDTO;
-import com.agiles.UniChain.auth.dto.request.UserUpdateRequestDto;
 import com.agiles.UniChain.auth.dto.response.CustomUserResponseDTO;
 import com.agiles.UniChain.auth.repository.UserRepo;
 import com.agiles.UniChain.auth.service.UserServiceIMPL;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping( "/User" )
@@ -34,8 +29,6 @@ public class UserController {
         return ResponseEntity.ok("Successfully created user");
     }
 
-
-//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping( "{id}" )
     public ResponseEntity<CustomUserResponseDTO> readOne(@PathVariable( "id" ) Long id ) {
         return ResponseEntity
@@ -43,12 +36,12 @@ public class UserController {
                 .body( userService.readOne( id ) );
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping( "change-roles" )
     public ResponseEntity<String> setUserRoles(@RequestBody UserRoleRequestDTO requestDTO ) {
         userService.setUserRoles( requestDTO ) ;
         return ResponseEntity.ok("Successfully set user roles");
     }
+
     @DeleteMapping
     public ResponseEntity<String>delete(@RequestParam Long id ) {
         userRepo.deleteById( id );

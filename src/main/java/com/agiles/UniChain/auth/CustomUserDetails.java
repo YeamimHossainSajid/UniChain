@@ -24,7 +24,8 @@ public class CustomUserDetails implements UserDetails, Principal, Serializable {
     private String username;
     private String email;
     private String password;
-    private Set<Role> roles = new HashSet<>();  // Change from Set<String> to Set<Role>
+    private Set< String > roles = new HashSet<>();
+
 
     @Override
     public String getName() {
@@ -32,11 +33,11 @@ public class CustomUserDetails implements UserDetails, Principal, Serializable {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        // Convert roles to authorities using role names
-        return roles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getRoleType()))  // Use the role's type (name)
-                .collect(Collectors.toSet());
+    public Collection< ? extends GrantedAuthority > getAuthorities() {
+        return roles
+                .stream()
+                .map( SimpleGrantedAuthority::new )
+                .collect( Collectors.toSet() );
     }
 
     @Override
@@ -59,12 +60,43 @@ public class CustomUserDetails implements UserDetails, Principal, Serializable {
         return true;
     }
 
-    // Getter and Setter methods...
-    public Set<Role> getRoles() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<String> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
     }
 }

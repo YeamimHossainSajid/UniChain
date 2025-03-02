@@ -12,11 +12,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @Entity
-//@SuperBuilder
-//@SQLRestriction( "is_active = TRUE" )
-//@SQLDelete( sql = "UPDATE role SET is_active = FALSE WHERE id = ?" )
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -17,14 +17,12 @@ public class RoleController {
         this.roleService = roleService;
     }
 
-//     @PreAuthorize( "hasAnyRole('ADMIN')" )
     @PostMapping()
     public ResponseEntity<String> create(RoleRequestDTO requestDto ) {
         roleService.create( requestDto );
         return  ResponseEntity.ok( "Created" );
     }
 
-//    @PreAuthorize("hasAnyRole('ADMIN', 'MODERATOR')")
     @GetMapping( "{id}" )
     public ResponseEntity<CustomRoleResponseDTO> readOne(@PathVariable( "id" ) Long id ) {
         return ResponseEntity
@@ -32,7 +30,6 @@ public class RoleController {
                 .body( roleService.readOne( id ) );
     }
 
-//    @PreAuthorize( "hasAnyRole('ADMIN')" )
     @DeleteMapping( "{id}" )
     public ResponseEntity<String> delete( @PathVariable( "id" ) Long id ) {
         roleService.delete( id );

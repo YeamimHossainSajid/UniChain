@@ -39,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         customUserDetails.setUsername(foundUser.getUsername());
         customUserDetails.setPassword(foundUser.getPassword());
         customUserDetails.setEmail(foundUser.getEmail());
-//        customUserDetails.setRoles(grantedAuthorities);
+        customUserDetails.setRoles(grantedAuthorities);
 
         return customUserDetails;
     }
