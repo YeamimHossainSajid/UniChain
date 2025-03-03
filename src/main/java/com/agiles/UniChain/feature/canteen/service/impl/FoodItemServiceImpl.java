@@ -35,6 +35,7 @@ public class FoodItemServiceImpl extends AbstractService<FoodItem, FoodItemReque
     @Override
     protected FoodItemResponseDto convertToResponseDto(FoodItem foodItem) {
         FoodItemResponseDto responseDto = new FoodItemResponseDto();
+        responseDto.setId(foodItem.getId());
         responseDto.setName(foodItem.getName());
         responseDto.setPrice(foodItem.getPrice());
         responseDto.setShortDescription(foodItem.getShortDescription());
