@@ -1,5 +1,6 @@
 package com.agiles.UniChain.feature.canteen.service.impl;
 
+import com.agiles.UniChain.auth.dto.response.CustomUserResponseDTO;
 import com.agiles.UniChain.auth.model.User;
 import com.agiles.UniChain.auth.repository.UserRepo;
 import com.agiles.UniChain.config.image.service.CloudneryImageService;
@@ -11,16 +12,14 @@ import com.agiles.UniChain.feature.canteen.service.RestaurantService;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
 import com.agiles.UniChain.generic.repository.AbstractRepository;
 import com.agiles.UniChain.generic.service.AbstractService;
+import org.apache.commons.compress.harmony.unpack200.bytecode.ConstantValueAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,7 +67,8 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
         responseDto.setFoodItems(foodItems);
 
         if (restaurant.getUser() != null) {
-            responseDto.setUser(restaurant.getUser());
+            CustomUserResponseDTO userResponseDto = userRepo.findUserByUserId(restaurant.getUser().getId());
+            responseDto.setUser(userResponseDto);
         }
 
         return responseDto;

@@ -7,9 +7,10 @@ import com.agiles.UniChain.auth.model.User;
 
 public interface UserService {
 
-    public void create(UserRequestDTO requestDto);
+    public String create(UserRequestDTO requestDto);
     public CustomUserResponseDTO readOne(Long id );
     public User setUserRoles(UserRoleRequestDTO requestDTO );
     public void updateUser(Long id, UserRequestDTO userRequestDTO);
     public CustomUserResponseDTO searchByUsername(String username);
+    public String validateOtp(String email, String otp);
 }

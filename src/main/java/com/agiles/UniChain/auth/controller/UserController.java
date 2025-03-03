@@ -25,8 +25,13 @@ public class UserController {
 
     @PostMapping(value = "/add", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity< String > create(@ModelAttribute UserRequestDTO requestDto) throws IOException {
-        userService.create(requestDto);
-        return ResponseEntity.ok("Successfully created user");
+      String s=  userService.create(requestDto);
+        return ResponseEntity.ok(s);
+    }
+
+    @PostMapping("/validate")
+    public String validateOtp(@RequestParam String email, @RequestParam String otp) {
+        return userService.validateOtp(email, otp);
     }
 
     @GetMapping( "{id}" )

@@ -33,8 +33,7 @@ public class User {
     @NotEmpty
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "restaurant_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Restaurant restaurant;
 
 
