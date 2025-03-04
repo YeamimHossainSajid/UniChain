@@ -17,7 +17,6 @@ public class StudentRequestDto implements IDto {
     private String cgpa;
     private String interests;
     private String futurePlans;
-    private MultipartFile profileImage;
 
     Long userId;
 

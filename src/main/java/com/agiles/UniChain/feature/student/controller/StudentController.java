@@ -1,6 +1,5 @@
 package com.agiles.UniChain.feature.student.controller;
 
-import com.agiles.UniChain.feature.canteen.payload.request.FoodItemRequestDto;
 import com.agiles.UniChain.feature.student.entity.Student;
 import com.agiles.UniChain.feature.student.payload.request.StudentRequestDto;
 import com.agiles.UniChain.feature.student.service.StudentService;
@@ -10,10 +9,7 @@ import com.agiles.UniChain.generic.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -36,7 +32,7 @@ public class StudentController extends AbstractController<Student, StudentReques
 
     @PostMapping(value = "/updated/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String> createUpdated(@ModelAttribute StudentRequestDto dto) throws IOException {
-        MultipartFile picture =dto.getProfileImage();
+        MultipartFile picture =null;
         studentService.createUpdated(dto,picture);
         return ResponseEntity.ok("Food Item Created Successfully");
     }

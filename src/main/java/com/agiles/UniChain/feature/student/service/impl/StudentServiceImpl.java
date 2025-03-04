@@ -104,12 +104,6 @@ public class StudentServiceImpl extends AbstractService<Student, StudentRequestD
 
     @Override
     protected Student updateEntity(StudentRequestDto studentRequestDto, Student entity) throws IOException {
-        MultipartFile file = studentRequestDto.getProfileImage();
-        if (file != null && !file.isEmpty()) {
-            Map<String, Object> uploadResult = cloudneryImageService.upload(file);
-            entity.setProfileImage((String) uploadResult.get("secure_url"));
-        }
-
         entity.setName(studentRequestDto.getName());
         entity.setPhoneNumber(studentRequestDto.getPhoneNumber());
         entity.setDepartment(studentRequestDto.getDepartment());
