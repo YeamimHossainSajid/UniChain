@@ -2,7 +2,6 @@ package com.agiles.UniChain.feature.student.entity;
 
 import com.agiles.UniChain.auth.model.User;
 import com.agiles.UniChain.generic.model.BaseEntity;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -22,7 +21,6 @@ public class Student extends BaseEntity {
     private String futurePlans;
     private String profileImage;
 
-    // ✅ Student owns the relationship, so it contains the foreign key
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true, nullable = false)
     private User user;

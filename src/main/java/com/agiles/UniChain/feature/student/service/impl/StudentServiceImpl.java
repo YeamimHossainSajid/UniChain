@@ -116,4 +116,31 @@ public class StudentServiceImpl extends AbstractService<Student, StudentRequestD
     protected Specification<Student> buildSpecification(GenericSearchDto searchDto) {
         return null;
     }
+
+    @Override
+    public void createUpdated(StudentRequestDto studentRequestDto, MultipartFile image) throws IOException {
+
+        Student entity = new Student();
+
+        String profileImageUrl = "https://res.cloudinary.com/dxmwiwy6g/image/upload/v1740298839/jhp0yhawmfwffy195dn8.jpg";
+
+        if (image != null && !image.isEmpty()) {
+            Map<String, Object> uploadResult = cloudneryImageService.upload(image);
+            profileImageUrl = (String) uploadResult.get("secure_url");
+        }
+
+        entity.setProfileImage(profileImageUrl);
+
+        entity.setName(studentRequestDto.getName());
+        entity.setPhoneNumber(studentRequestDto.getPhoneNumber());
+        entity.setDepartment(studentRequestDto.getDepartment());
+        entity.setMajor(studentRequestDto.getMajor());
+        entity.setBatch(studentRequestDto.getBatch());
+        entity.setSemester(studentRequestDto.getSemester());
+        entity.setCgpa(studentRequestDto.getCgpa());
+        entity.setInterests(studentRequestDto.getInterests());
+        entity.setFuturePlans(studentRequestDto.getFuturePlans());
+        entity.setUser(userRepo.findById(studentRequestDto.getUserId()).orElse(null));
+
+    }
 }

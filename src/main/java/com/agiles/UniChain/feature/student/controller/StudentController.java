@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -30,6 +31,13 @@ public class StudentController extends AbstractController<Student, StudentReques
     @Override
     public ResponseEntity<String> create(@ModelAttribute StudentRequestDto dto) throws IOException {
         studentService.create(dto);
+        return ResponseEntity.ok("Food Item Created Successfully");
+    }
+
+    @PostMapping(value = "/updated/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> createUpdated(@ModelAttribute StudentRequestDto dto) throws IOException {
+        MultipartFile picture =dto.getProfileImage();
+        studentService.createUpdated(dto,picture);
         return ResponseEntity.ok("Food Item Created Successfully");
     }
 }
