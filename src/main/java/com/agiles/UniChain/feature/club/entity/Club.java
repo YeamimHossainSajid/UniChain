@@ -4,6 +4,7 @@ import com.agiles.UniChain.generic.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -17,5 +18,5 @@ public class Club extends BaseEntity {
     private String contactNo;
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Event> events;
+    private List<Event> events;
 }

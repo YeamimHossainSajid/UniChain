@@ -27,13 +27,13 @@ public class StudentController extends AbstractController<Student, StudentReques
     @Override
     public ResponseEntity<String> create(@ModelAttribute StudentRequestDto dto) throws IOException {
         studentService.create(dto);
-        return ResponseEntity.ok("Food Item Created Successfully");
+        return ResponseEntity.ok("Student created");
     }
 
     @PostMapping(value = "/updated/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String> createUpdated(@ModelAttribute StudentRequestDto dto) throws IOException {
         MultipartFile picture =null;
         studentService.createUpdated(dto,picture);
-        return ResponseEntity.ok("Food Item Created Successfully");
+        return ResponseEntity.ok("Student updated");
     }
 }
