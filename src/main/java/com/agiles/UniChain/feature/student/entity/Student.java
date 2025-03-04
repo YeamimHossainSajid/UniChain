@@ -2,9 +2,7 @@ package com.agiles.UniChain.feature.student.entity;
 
 import com.agiles.UniChain.auth.model.User;
 import com.agiles.UniChain.generic.model.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
@@ -22,6 +20,13 @@ public class Student extends BaseEntity {
     private String profileImage;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn(name = "user_id", unique = true)
     private User user;
+
+    public void setUser(User user) {
+        this.user = user;
+        if (user != null && user.getStudent() != this) {
+            user.setStudent(this);
+        }
+    }
 }

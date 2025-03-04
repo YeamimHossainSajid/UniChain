@@ -17,20 +17,20 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table( name = "_user" )
+@Table(name = "_user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column( nullable = false ,unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
-    @Column( nullable = false )
+    @Column(nullable = false)
     private String email;
 
-    @Column( nullable = false )
+    @Column(nullable = false)
     @NotEmpty
     private String password;
 
@@ -39,18 +39,25 @@ public class User {
     private Restaurant restaurant;
 
     @ManyToMany(
-            cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH },
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},
             fetch = FetchType.EAGER
     )
     @JoinTable(
             name = "_user_roles",
-            joinColumns = @JoinColumn( name = "user_id" ),
-            inverseJoinColumns = @JoinColumn( name = "roles_id" )
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id")
     )
     private Set<Role> roles = new LinkedHashSet<>();
 
-    // ✅ Corrected the mapping here
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Student student;  // Don't put @JoinColumn here! Student owns the relationship
+    @OneToOne
+    @JoinColumn(name = "student_id", unique = true)
+    private Student student;
+
+    public void setStudent(Student student) {
+        this.student = student;
+        if (student != null && student.getUser() != this) {
+            student.setUser(this);
+        }
+    }
 }
 

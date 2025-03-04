@@ -1,11 +1,13 @@
 package com.agiles.UniChain.feature.student.service.impl;
 
 import com.agiles.UniChain.auth.dto.response.CustomUserResponseDTO;
+import com.agiles.UniChain.auth.model.User;
 import com.agiles.UniChain.auth.repository.UserRepo;
 import com.agiles.UniChain.config.image.service.CloudneryImageService;
 import com.agiles.UniChain.feature.student.entity.Student;
 import com.agiles.UniChain.feature.student.payload.request.StudentRequestDto;
 import com.agiles.UniChain.feature.student.payload.response.StudentResponseDto;
+import com.agiles.UniChain.feature.student.repository.StudentRepository;
 import com.agiles.UniChain.feature.student.service.StudentService;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
 import com.agiles.UniChain.generic.repository.AbstractRepository;
@@ -25,6 +27,8 @@ public class StudentServiceImpl extends AbstractService<Student, StudentRequestD
 
     @Autowired
     CloudneryImageService cloudneryImageService;
+    @Autowired
+    StudentRepository studentRepository;
 
     @Autowired
     UserRepo userRepo;
@@ -55,7 +59,6 @@ public class StudentServiceImpl extends AbstractService<Student, StudentRequestD
                 public Long getId() {
                     return student.getUser().getId();
                 }
-
                 @Override
                 public String getUsername() {
                     return student.getUser().getUsername();
@@ -66,6 +69,15 @@ public class StudentServiceImpl extends AbstractService<Student, StudentRequestD
                     return student.getUser().getEmail();
                 }
 
+                @Override
+                public StudentInfo getStudent() {
+                    return new StudentInfo() {
+                        @Override
+                        public Long getId() {
+                            return student.getId(); // Return the student ID
+                        }
+                    };
+                }
                 @Override
                 public Set<RoleInfo> getRoles() {
                     return student.getUser().getRoles().stream().map(role -> new RoleInfo() {
@@ -119,28 +131,45 @@ public class StudentServiceImpl extends AbstractService<Student, StudentRequestD
 
     @Override
     public void createUpdated(StudentRequestDto studentRequestDto, MultipartFile image) throws IOException {
+        // Create a new Student entity
+        Student student = new Student();
 
-        Student entity = new Student();
-
+        // Set the profile image URL (default or uploaded)
         String profileImageUrl = "https://res.cloudinary.com/dxmwiwy6g/image/upload/v1740298839/jhp0yhawmfwffy195dn8.jpg";
-
         if (image != null && !image.isEmpty()) {
             Map<String, Object> uploadResult = cloudneryImageService.upload(image);
             profileImageUrl = (String) uploadResult.get("secure_url");
         }
+        student.setProfileImage(profileImageUrl);
 
-        entity.setProfileImage(profileImageUrl);
+        // Set other fields from the request DTO
+        student.setName(studentRequestDto.getName());
+        student.setPhoneNumber(studentRequestDto.getPhoneNumber());
+        student.setDepartment(studentRequestDto.getDepartment());
+        student.setMajor(studentRequestDto.getMajor());
+        student.setBatch(studentRequestDto.getBatch());
+        student.setSemester(studentRequestDto.getSemester());
+        student.setCgpa(studentRequestDto.getCgpa());
+        student.setInterests(studentRequestDto.getInterests());
+        student.setFuturePlans(studentRequestDto.getFuturePlans());
 
-        entity.setName(studentRequestDto.getName());
-        entity.setPhoneNumber(studentRequestDto.getPhoneNumber());
-        entity.setDepartment(studentRequestDto.getDepartment());
-        entity.setMajor(studentRequestDto.getMajor());
-        entity.setBatch(studentRequestDto.getBatch());
-        entity.setSemester(studentRequestDto.getSemester());
-        entity.setCgpa(studentRequestDto.getCgpa());
-        entity.setInterests(studentRequestDto.getInterests());
-        entity.setFuturePlans(studentRequestDto.getFuturePlans());
-        entity.setUser(userRepo.findById(studentRequestDto.getUserId()).orElse(null));
+        // Fetch the User entity using the userId from the request DTO
+        User user = userRepo.findById(studentRequestDto.getUserId()).orElse(null);
+        if (user != null) {
+            // Set the User in the Student entity
+            student.setUser(user);
 
+            // Set the Student in the User entity to maintain the bidirectional relationship
+            user.setStudent(student);
+        }
+
+        // Save the Student entity
+        studentRepository.save(student);
+
+        // Save the User entity to update the student_id in the User table
+        if (user != null) {
+            userRepo.save(user);
+        }
+        studentRepository.save(student);
     }
 }
