@@ -1,6 +1,7 @@
 package com.agiles.UniChain.auth.model;
 
 import com.agiles.UniChain.feature.canteen.entity.Restaurant;
+import com.agiles.UniChain.feature.student.entity.Student;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -33,9 +34,9 @@ public class User {
     @NotEmpty
     private String password;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
-
 
     @ManyToMany(
             cascade = { CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH },
@@ -46,7 +47,10 @@ public class User {
             joinColumns = @JoinColumn( name = "user_id" ),
             inverseJoinColumns = @JoinColumn( name = "roles_id" )
     )
-
     private Set<Role> roles = new LinkedHashSet<>();
 
+    // ✅ Corrected the mapping here
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Student student;  // Don't put @JoinColumn here! Student owns the relationship
 }
+

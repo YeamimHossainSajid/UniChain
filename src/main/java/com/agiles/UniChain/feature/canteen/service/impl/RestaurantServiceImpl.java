@@ -12,14 +12,16 @@ import com.agiles.UniChain.feature.canteen.service.RestaurantService;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
 import com.agiles.UniChain.generic.repository.AbstractRepository;
 import com.agiles.UniChain.generic.service.AbstractService;
-import org.apache.commons.compress.harmony.unpack200.bytecode.ConstantValueAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,9 +49,8 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
         responseDto.setEmail(restaurant.getEmail());
         responseDto.setIsOpen(restaurant.getIsOpen());
 
-        // Null check for foodItems
         List<FoodItemResponseDto> foodItems = Optional.ofNullable(restaurant.getFoodItems())
-                .orElse(Collections.emptyList())  // If null, return empty list
+                .orElse(Collections.emptyList())
                 .stream().map(foodItem -> {
                     FoodItemResponseDto dto = new FoodItemResponseDto();
                     dto.setId(foodItem.getId());
@@ -67,8 +68,7 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
         responseDto.setFoodItems(foodItems);
 
         if (restaurant.getUser() != null) {
-            CustomUserResponseDTO userResponseDto = userRepo.findUserByUserId(restaurant.getUser().getId());
-            responseDto.setUser(userResponseDto);
+            responseDto.setUser((CustomUserResponseDTO) restaurant.getUser());
         }
 
         return responseDto;
