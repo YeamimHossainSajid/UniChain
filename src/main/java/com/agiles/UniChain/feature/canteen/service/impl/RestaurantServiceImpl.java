@@ -68,7 +68,8 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
         responseDto.setFoodItems(foodItems);
 
         if (restaurant.getUser() != null) {
-            responseDto.setUser((CustomUserResponseDTO) restaurant.getUser());
+            CustomUserResponseDTO customUserResponseDTO=userRepo.findUserProjectionById(restaurant.getUser().getId()).orElse(null);
+            responseDto.setUser(customUserResponseDTO);
         }
 
         return responseDto;
