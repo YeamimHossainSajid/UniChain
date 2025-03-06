@@ -1,5 +1,6 @@
 package com.agiles.UniChain.feature.classschedules.service.impl;
 
+import com.agiles.UniChain.config.image.service.CloudneryImageService;
 import com.agiles.UniChain.feature.classschedules.entity.Faculty;
 import com.agiles.UniChain.feature.classschedules.entity.Course;
 import com.agiles.UniChain.feature.classschedules.payload.request.AssignmentRequestDto;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -28,6 +30,9 @@ public class FacultyServiceImpl extends AbstractService<Faculty, FacultyRequestD
     private CourseRepository courseRepository;
     @Autowired
     private FacultyRepository facultyRepository;
+
+    @Autowired
+    private CloudneryImageService cloudneryImageService;
 
     public FacultyServiceImpl(AbstractRepository<Faculty> repository) {
         super(repository);
@@ -97,9 +102,10 @@ public class FacultyServiceImpl extends AbstractService<Faculty, FacultyRequestD
         entity.setOfficeHours(facultyRequestDto.getOfficeHours());
 
 
-        MultipartFile imageFile = facultyRequestDto.getImage();
-        if (imageFile != null && !imageFile.isEmpty()) {
-            entity.setImage(imageFile.getOriginalFilename());
+        if (file != null && !file.isEmpty()) {
+            Map<String, Object> heroUploadResult = cloudneryImageService.upload(file);
+            String imageUrl = (String) heroUploadResult.get("secure_url");
+            entity.setImage(imageUrl);
         }
         facultyRepository.save(entity);
     }

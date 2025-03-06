@@ -59,6 +59,6 @@ public class ClassScheduleServiceImpl extends AbstractService<ClassSchedule, Cla
 
     @Override
     protected Specification<ClassSchedule> buildSpecification(GenericSearchDto searchDto) {
-        return null; // Implement any custom specification logic if needed
+        return null;
     }
 }
