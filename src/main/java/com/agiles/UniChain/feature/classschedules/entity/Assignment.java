@@ -15,6 +15,8 @@ import java.time.LocalDate;
 public class Assignment extends BaseEntity {
 
     private String title;
+    private String description;
+    private String image;
     private LocalDate dueDate;
     private String status;
 

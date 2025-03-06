@@ -15,6 +15,7 @@ import java.time.LocalTime;
 @Table(name = "exam_schedule")
 public class ExamSchedule extends BaseEntity {
 
+    private String name;
     private LocalDate date;
     private LocalTime time;
     private String location;

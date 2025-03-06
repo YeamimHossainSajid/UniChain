@@ -19,6 +19,7 @@ public class Faculty extends BaseEntity {
     private String phone;
     private String department;
     private String officeHours;
+    private String image;
 
     @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Course> courses;
