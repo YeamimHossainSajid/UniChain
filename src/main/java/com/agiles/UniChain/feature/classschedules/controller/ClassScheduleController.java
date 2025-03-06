@@ -7,7 +7,11 @@ import com.agiles.UniChain.generic.controller.AbstractController;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
 import com.agiles.UniChain.generic.service.AbstractService;
 import com.agiles.UniChain.generic.service.IService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("ClassSchedule")
 public class ClassScheduleController extends AbstractController<Assignment, AssignmentRequestDto, GenericSearchDto> {
 
     public ClassScheduleController(IService<Assignment, AssignmentRequestDto, GenericSearchDto> service) {

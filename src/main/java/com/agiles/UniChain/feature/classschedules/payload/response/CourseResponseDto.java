@@ -1,8 +1,12 @@
 package com.agiles.UniChain.feature.classschedules.payload.response;
 
+import com.agiles.UniChain.generic.payload.response.BaseResponseDto;
+import lombok.Data;
+
 import java.util.List;
 
-public class CourseResponseDto {
+@Data
+public class CourseResponseDto extends BaseResponseDto {
     private Long id;
     private String name;
     private String code;
