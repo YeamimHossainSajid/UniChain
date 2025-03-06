@@ -1,5 +1,8 @@
 package com.agiles.UniChain.feature.Routs.service.impl;
 
+import com.agiles.UniChain.auth.model.User;
+import com.agiles.UniChain.auth.repository.UserRepo;
+import com.agiles.UniChain.config.mail.EmailService;
 import com.agiles.UniChain.feature.Routs.entity.Announcement;
 import com.agiles.UniChain.feature.Routs.entity.Bus;
 import com.agiles.UniChain.feature.Routs.payload.request.AnnouncementRequestDTO;
@@ -14,6 +17,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +25,12 @@ public class AnnouncementServiceImpl extends AbstractService<Announcement, Annou
 
     @Autowired
     private BusRepository busRepository;
+
+    @Autowired
+    private UserRepo userRepo;
+
+    @Autowired
+    private EmailService emailService;
 
     public AnnouncementServiceImpl(AbstractRepository<Announcement> repository) {
         super(repository);
@@ -36,6 +46,12 @@ public class AnnouncementServiceImpl extends AbstractService<Announcement, Annou
 
     @Override
     protected Announcement convertToEntity(AnnouncementRequestDTO announcementRequestDTO) throws IOException {
+        List<User> users = userRepo.findAll();
+        String announcementMessage = announcementRequestDTO.getMessage();
+        for (User user : users) {
+          emailService.sendAnnouncementEmail(user.getEmail(), announcementMessage);
+        }
+
         return updateEntity(announcementRequestDTO, new Announcement());
     }
 
