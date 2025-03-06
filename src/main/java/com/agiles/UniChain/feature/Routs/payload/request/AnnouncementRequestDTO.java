@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 
 @Data
 public class AnnouncementRequestDTO {
-
     private String message;
     private Long busId;
 }

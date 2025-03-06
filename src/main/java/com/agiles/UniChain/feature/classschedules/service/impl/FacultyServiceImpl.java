@@ -2,10 +2,12 @@ package com.agiles.UniChain.feature.classschedules.service.impl;
 
 import com.agiles.UniChain.feature.classschedules.entity.Faculty;
 import com.agiles.UniChain.feature.classschedules.entity.Course;
+import com.agiles.UniChain.feature.classschedules.payload.request.AssignmentRequestDto;
 import com.agiles.UniChain.feature.classschedules.payload.request.FacultyRequestDto;
 import com.agiles.UniChain.feature.classschedules.payload.response.CourseResponseDto;
 import com.agiles.UniChain.feature.classschedules.payload.response.FacultyResponseDto;
 import com.agiles.UniChain.feature.classschedules.repository.CourseRepository;
+import com.agiles.UniChain.feature.classschedules.repository.FacultyRepository;
 import com.agiles.UniChain.feature.classschedules.service.FacultyService;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
 import com.agiles.UniChain.generic.repository.AbstractRepository;
@@ -24,6 +26,8 @@ public class FacultyServiceImpl extends AbstractService<Faculty, FacultyRequestD
 
     @Autowired
     private CourseRepository courseRepository;
+    @Autowired
+    private FacultyRepository facultyRepository;
 
     public FacultyServiceImpl(AbstractRepository<Faculty> repository) {
         super(repository);
@@ -79,5 +83,24 @@ public class FacultyServiceImpl extends AbstractService<Faculty, FacultyRequestD
     @Override
     protected Specification<Faculty> buildSpecification(GenericSearchDto searchDto) {
         return null;
+    }
+
+    @Override
+    public void createV2(FacultyRequestDto facultyRequestDto, MultipartFile file) throws IOException {
+
+        Faculty entity = new Faculty();
+
+        entity.setName(facultyRequestDto.getName());
+        entity.setEmail(facultyRequestDto.getEmail());
+        entity.setPhone(facultyRequestDto.getPhone());
+        entity.setDepartment(facultyRequestDto.getDepartment());
+        entity.setOfficeHours(facultyRequestDto.getOfficeHours());
+
+
+        MultipartFile imageFile = facultyRequestDto.getImage();
+        if (imageFile != null && !imageFile.isEmpty()) {
+            entity.setImage(imageFile.getOriginalFilename());
+        }
+        facultyRepository.save(entity);
     }
 }

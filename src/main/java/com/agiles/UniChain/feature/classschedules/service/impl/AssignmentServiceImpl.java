@@ -5,6 +5,7 @@ import com.agiles.UniChain.feature.classschedules.entity.Assignment;
 import com.agiles.UniChain.feature.classschedules.entity.Course;
 import com.agiles.UniChain.feature.classschedules.payload.request.AssignmentRequestDto;
 import com.agiles.UniChain.feature.classschedules.payload.response.AssignmentResponseDto;
+import com.agiles.UniChain.feature.classschedules.repository.AssignmentRepository;
 import com.agiles.UniChain.feature.classschedules.repository.CourseRepository;
 import com.agiles.UniChain.feature.classschedules.service.AssignmentService;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
@@ -23,9 +24,11 @@ public class AssignmentServiceImpl extends AbstractService<Assignment, Assignmen
 
     @Autowired
     private CloudneryImageService cloudneryImageService;
+    @Autowired
+    AssignmentRepository assignmentRepository;
 
     @Autowired
- CourseRepository courseRepository;
+    CourseRepository courseRepository;
 
     public AssignmentServiceImpl(AbstractRepository<Assignment> repository) {
         super(repository);
@@ -71,6 +74,28 @@ public class AssignmentServiceImpl extends AbstractService<Assignment, Assignmen
     @Override
     protected Specification<Assignment> buildSpecification(GenericSearchDto searchDto) {
         return null;
+    }
+
+    @Override
+    public void createV2(AssignmentRequestDto assignmentRequestDto, MultipartFile file) throws IOException {
+        Assignment entity=new Assignment();
+
+        if (file != null && !file.isEmpty()) {
+            Map<String, Object> heroUploadResult = cloudneryImageService.upload(file);
+            String imageUrl = (String) heroUploadResult.get("secure_url");
+            entity.setImage(imageUrl);
+        }
+
+        entity.setTitle(assignmentRequestDto.getTitle());
+        entity.setDueDate(assignmentRequestDto.getDueDate());
+        entity.setStatus(assignmentRequestDto.getStatus());
+
+        if (assignmentRequestDto.getCourseId() != null) {
+            Course course = courseRepository.findById(assignmentRequestDto.getCourseId())
+                    .orElseThrow(() -> new RuntimeException("Course not found with ID: " + assignmentRequestDto.getCourseId()));
+            entity.setCourse(course);
+        }
+        assignmentRepository.save(entity);
     }
 }
 
