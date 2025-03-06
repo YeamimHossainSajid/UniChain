@@ -4,6 +4,7 @@ import com.agiles.UniChain.generic.model.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -12,8 +13,8 @@ import java.util.Set;
 public class Event extends BaseEntity {
     private String title;
     private String description;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDate startTime;
+    private LocalDate endTime;
     private String location;
     private String imageUrl;
 
