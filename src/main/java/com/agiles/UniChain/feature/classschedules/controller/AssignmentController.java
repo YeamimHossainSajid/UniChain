@@ -1,6 +1,7 @@
 package com.agiles.UniChain.feature.classschedules.controller;
 
 import com.agiles.UniChain.feature.canteen.payload.request.FoodItemRequestDto;
+import com.agiles.UniChain.feature.classschedules.entity.Assignment;
 import com.agiles.UniChain.feature.classschedules.entity.Course;
 import com.agiles.UniChain.feature.classschedules.payload.request.AssignmentRequestDto;
 import com.agiles.UniChain.feature.classschedules.payload.request.CourseRequestDto;
@@ -20,9 +21,9 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("Assignment")
-public class AssignmentController extends AbstractController<Course, CourseRequestDto, GenericSearchDto> {
+public class AssignmentController extends AbstractController<Assignment, AssignmentRequestDto, GenericSearchDto> {
    AssignmentService assignmentService;
-    public AssignmentController(IService<Course, CourseRequestDto, GenericSearchDto> service,AssignmentService assignmentService) {
+    public AssignmentController(IService<Assignment, AssignmentRequestDto, GenericSearchDto> service,AssignmentService assignmentService) {
         super(service);
         this.assignmentService = assignmentService;
     }
