@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("bus/route")
 public class BusRouteController extends AbstractController <BusRoute, BusRouteRequestDTO, GenericSearchDto> {
+
     public BusRouteController(IService<BusRoute, BusRouteRequestDTO, GenericSearchDto> service) {
         super(service);
     }
+
 }
