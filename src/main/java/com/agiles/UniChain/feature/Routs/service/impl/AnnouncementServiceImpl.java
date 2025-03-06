@@ -48,12 +48,25 @@ public class AnnouncementServiceImpl extends AbstractService<Announcement, Annou
     protected Announcement convertToEntity(AnnouncementRequestDTO announcementRequestDTO) throws IOException {
         List<User> users = userRepo.findAll();
         String announcementMessage = announcementRequestDTO.getMessage();
+
         for (User user : users) {
-          emailService.sendAnnouncementEmail(user.getEmail(), announcementMessage);
+            String userEmail = user.getEmail();
+
+            if (isValidEmail(userEmail)) {
+                emailService.sendAnnouncementEmail(userEmail, announcementMessage);
+            } else {
+                System.out.println("Skipping invalid email: " + userEmail);
+            }
         }
 
         return updateEntity(announcementRequestDTO, new Announcement());
     }
+
+
+    private boolean isValidEmail(String email) {
+        return email != null && email.contains("@") && email.contains(".");
+    }
+
 
     @Override
     protected Announcement updateEntity(AnnouncementRequestDTO announcementRequestDTO, Announcement entity) throws IOException {

@@ -64,7 +64,7 @@ public class EmailService {
                     "<p style='font-size: 16px; color: #34495e; text-align: center;'>" +
                     announcement + "</p>" +
                     "<div style='text-align: center; margin-top: 20px;'>" +
-                    "<a href='https://yourapp.com' style='background-color: #2980b9; color: #ffffff; padding: 12px 20px; " +
+                    "<a href='https://unichain-ac-bd.web.app/bus-routes' style='background-color: #2980b9; color: #ffffff; padding: 12px 20px; " +
                     "text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;'>Check Updates</a>" +
                     "</div>" +
                     "<br>" +
