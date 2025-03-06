@@ -1,6 +1,9 @@
 package com.agiles.UniChain.feature.club.service.impl;
 
+import com.agiles.UniChain.auth.model.User;
+import com.agiles.UniChain.auth.repository.UserRepo;
 import com.agiles.UniChain.config.image.service.CloudneryImageService;
+import com.agiles.UniChain.config.mail.EmailService;
 import com.agiles.UniChain.feature.club.entity.Club;
 import com.agiles.UniChain.feature.club.entity.Event;
 import com.agiles.UniChain.feature.club.payload.request.EventRequestDto;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,6 +29,11 @@ public class EventServiceImpl extends AbstractService<Event, EventRequestDto, Ge
 
     EventRepository eventRepository;
     ClubRepository clubRepository;
+    @Autowired
+    EmailService emailService;
+
+    @Autowired
+    UserRepo userRepo;
 
     @Autowired
     private CloudneryImageService cloudneryImageService;
@@ -110,5 +119,23 @@ public class EventServiceImpl extends AbstractService<Event, EventRequestDto, Ge
         }
 
         eventRepository.save(entity);
+
+        List<User> users = userRepo.findAll();
+        String announcementMessage = "An event has been updated: " + eventRequestDto.getTitle() + "\n" + eventRequestDto.getDescription();
+
+
+        for (User user : users) {
+            String userEmail = user.getEmail();
+
+            if (isValidEmail(userEmail)) {
+                emailService.sendUpcomingEventEmail(userEmail, eventRequestDto.getTitle(),eventRequestDto.getDescription(), eventRequestDto.getStartTime()+"");
+            } else {
+                System.out.println("Skipping invalid email: " + userEmail);
+            }
+        }
     }
+    private boolean isValidEmail(String email) {
+        return email != null && email.contains("@") && email.contains(".");
+    }
+
 }

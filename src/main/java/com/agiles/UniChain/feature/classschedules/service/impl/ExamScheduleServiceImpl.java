@@ -1,5 +1,8 @@
 package com.agiles.UniChain.feature.classschedules.service.impl;
 
+import com.agiles.UniChain.auth.model.User;
+import com.agiles.UniChain.auth.repository.UserRepo;
+import com.agiles.UniChain.config.mail.EmailService;
 import com.agiles.UniChain.feature.classschedules.entity.ExamSchedule;
 import com.agiles.UniChain.feature.classschedules.entity.Course;
 import com.agiles.UniChain.feature.classschedules.payload.request.ExamScheduleRequestDto;
@@ -10,11 +13,14 @@ import com.agiles.UniChain.feature.classschedules.service.ExamScheduleService;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
 import com.agiles.UniChain.generic.repository.AbstractRepository;
 import com.agiles.UniChain.generic.service.AbstractService;
+import org.hibernate.annotations.AttributeAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,6 +28,10 @@ public class ExamScheduleServiceImpl extends AbstractService<ExamSchedule, ExamS
 
     private final CourseRepository courseRepository;
 
+    @Autowired
+    EmailService emailService;
+    @Autowired
+    UserRepo userRepo;
     @Autowired
     public ExamScheduleServiceImpl(AbstractRepository<ExamSchedule> repository, CourseRepository courseRepository) {
         super(repository);
@@ -49,8 +59,29 @@ public class ExamScheduleServiceImpl extends AbstractService<ExamSchedule, ExamS
 
     @Override
     protected ExamSchedule convertToEntity(ExamScheduleRequestDto examScheduleRequestDto) throws IOException {
+        List<User> users = userRepo.findAll();
+        String examTitle = examScheduleRequestDto.getLocation();
+        Long examDate = examScheduleRequestDto.getCourseId();
+        LocalDate localDate = examScheduleRequestDto.getDate();
+
+
+        for (User user : users) {
+            String userEmail = user.getEmail();
+
+            if (isValidEmail(userEmail)) {
+                emailService.sendUpcomingExamScheduleEmail(userEmail, examTitle, examDate,localDate);
+            } else {
+                System.out.println("Skipping invalid email: " + userEmail);
+            }
+        }
+
         return updateEntity(examScheduleRequestDto, new ExamSchedule());
     }
+
+    private boolean isValidEmail(String email) {
+        return email != null && email.contains("@") && email.contains(".");
+    }
+
 
     @Override
     protected ExamSchedule updateEntity(ExamScheduleRequestDto examScheduleRequestDto, ExamSchedule entity) throws IOException {
