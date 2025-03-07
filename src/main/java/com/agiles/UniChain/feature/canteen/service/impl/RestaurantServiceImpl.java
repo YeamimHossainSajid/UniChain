@@ -66,11 +66,11 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
                 }).collect(Collectors.toList());
 
         responseDto.setFoodItems(foodItems);
-
-        if (restaurant.getUser() != null) {
-            CustomUserResponseDTO customUserResponseDTO=userRepo.findUserProjectionById(restaurant.getUser().getId()).orElse(null);
-            responseDto.setUser(customUserResponseDTO);
-        }
+//
+//        if (restaurant.getUser() != null) {
+//            CustomUserResponseDTO customUserResponseDTO=userRepo.findUserProjectionById(restaurant.getUser().getId()).orElse(null);
+//            responseDto.setUser(customUserResponseDTO);
+//        }
 
         return responseDto;
     }
@@ -95,7 +95,7 @@ public class RestaurantServiceImpl extends AbstractService<Restaurant, Restauran
         entity.setContactNumber2(restaurantRequestDto.getContactNumber2());
         entity.setEmail(restaurantRequestDto.getEmail());
         entity.setIsOpen(restaurantRequestDto.getIsOpen());
-        entity.setUser(userRepo.findById(restaurantRequestDto.getUserId()).get());
+//        entity.setUser(userRepo.findById(restaurantRequestDto.getUserId()).get());
 
         return entity;
     }

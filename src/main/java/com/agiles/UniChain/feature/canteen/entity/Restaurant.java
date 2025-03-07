@@ -27,9 +27,9 @@ public class Restaurant extends BaseEntity {
     private String isOpen;
     private String image;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", unique = true)
-    private User user;
+//    @OneToOne
+//    @JoinColumn(name = "user_id", unique = true)
+//    private User user;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FoodItem> foodItems = new ArrayList<>();
