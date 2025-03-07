@@ -4,6 +4,7 @@ import com.agiles.UniChain.config.image.service.CloudneryImageService;
 import com.agiles.UniChain.feature.communicationhub.entity.LostAndFound;
 import com.agiles.UniChain.feature.communicationhub.payload.request.LostAndFoundRequest;
 import com.agiles.UniChain.feature.communicationhub.payload.response.LostAndFoundResponse;
+import com.agiles.UniChain.feature.communicationhub.repository.LostAndFoundRepository;
 import com.agiles.UniChain.feature.communicationhub.service.LostAndFoundService;
 import com.agiles.UniChain.feature.student.entity.Student;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
@@ -20,6 +21,8 @@ import java.util.Map;
 @Service
 public class LostAndFoundServiceImpl extends AbstractService<LostAndFound, LostAndFoundRequest, GenericSearchDto>implements LostAndFoundService {
 
+    @Autowired
+    LostAndFoundRepository lostAndFoundRepository;
     @Autowired
     CloudneryImageService cloudneryImageService;
 
@@ -63,6 +66,7 @@ public class LostAndFoundServiceImpl extends AbstractService<LostAndFound, LostA
         return null;
     }
 
+    @Override
     public void createV2(LostAndFoundRequest request, MultipartFile image) throws IOException {
         LostAndFound entity = new LostAndFound();
         entity.setName(request.getName());
@@ -74,5 +78,8 @@ public class LostAndFoundServiceImpl extends AbstractService<LostAndFound, LostA
             profileImageUrl = (String) uploadResult.get("secure_url");
         }
         entity.setPicture(profileImageUrl);
+
+        lostAndFoundRepository.save(entity);
+
     }
 }
