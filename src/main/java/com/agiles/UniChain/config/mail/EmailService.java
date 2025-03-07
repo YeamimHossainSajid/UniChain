@@ -155,6 +155,40 @@ public class EmailService {
         }
     }
 
+    public void sendEmergencyAlertEmail(String toEmail, String alertType, String alertTime) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            helper.setTo(toEmail);
+            helper.setSubject("🚨 Emergency Alert: " + alertType);
+
+            String emailContent = "<html>" +
+                    "<body style='font-family: Arial, sans-serif; background-color: #fff5f5; padding: 20px;'>" +
+                    "<div style='max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 10px; " +
+                    "box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);'>" +
+                    "<h2 style='color: #c0392b; text-align: center;'>🚨 Emergency Alert: " + alertType + "</h2>" +
+                    "<p style='font-size: 16px; color: #e74c3c; text-align: center;'>An emergency alert has been issued. Please take immediate action if necessary.</p>" +
+                    "<p style='font-size: 16px; color: #34495e; text-align: center;'>Alert Type: <strong>" + alertType + "</strong></p>" +
+                    "<p style='font-size: 16px; color: #34495e; text-align: center;'>Time: <strong>" + alertTime + "</strong></p>" +
+                    "<div style='text-align: center; margin-top: 20px;'>" +
+                    "<a href='https://unichain-ac-bd.web.app/updateandannounce' style='background-color: #c0392b; color: #ffffff; padding: 12px 20px; " +
+                    "text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;'>View Emergency Info</a>" +
+                    "</div>" +
+                    "<br>" +
+                    "<p style='font-size: 14px; color: #7f8c8d; text-align: center;'>Stay safe and follow necessary precautions.</p>" +
+                    "</div>" +
+                    "</body>" +
+                    "</html>";
+
+            helper.setText(emailContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send emergency alert email", e);
+        }
+    }
+
+
 
 
 
