@@ -13,5 +13,4 @@ public class LostAndFound extends BaseEntity {
     String contacts;
     String picture;
     String description;
-    LocalTime time;
 }

@@ -14,6 +14,4 @@ public class LostAndFoundRequest implements IDto {
     String contacts;
     MultipartFile picture;
     String description;
-    @JsonDeserialize(using = LocalTimeDeserializer.class)
-    LocalTime time;
 }

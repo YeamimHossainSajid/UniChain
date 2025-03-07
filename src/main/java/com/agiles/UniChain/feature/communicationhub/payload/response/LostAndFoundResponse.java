@@ -12,5 +12,4 @@ public class LostAndFoundResponse extends BaseResponseDto {
     String contacts;
     String picture;
     String description;
-    LocalTime time;
 }

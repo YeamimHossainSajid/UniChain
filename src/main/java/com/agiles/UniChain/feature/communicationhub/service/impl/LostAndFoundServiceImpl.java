@@ -36,7 +36,6 @@ public class LostAndFoundServiceImpl extends AbstractService<LostAndFound, LostA
         response.setName(lostAndFound.getName());
         response.setDescription(lostAndFound.getDescription());
         response.setContacts(lostAndFound.getContacts());
-        response.setTime(lostAndFound.getTime());
         response.setPicture(lostAndFound.getPicture());
 
         return response;
@@ -52,7 +51,7 @@ public class LostAndFoundServiceImpl extends AbstractService<LostAndFound, LostA
         entity.setName(request.getName());
         entity.setDescription(request.getDescription());
         entity.setContacts(request.getContacts());
-        entity.setTime(request.getTime());
+
 //        entity.setPicture(request.getPicture());
 
 
@@ -69,7 +68,6 @@ public class LostAndFoundServiceImpl extends AbstractService<LostAndFound, LostA
         entity.setName(request.getName());
         entity.setDescription(request.getDescription());
         entity.setContacts(request.getContacts());
-        entity.setTime(request.getTime());
         String profileImageUrl = "https://res.cloudinary.com/dxmwiwy6g/image/upload/v1740298839/jhp0yhawmfwffy195dn8.jpg";
         if (image != null && !image.isEmpty()) {
             Map<String, Object> uploadResult = cloudneryImageService.upload(image);
