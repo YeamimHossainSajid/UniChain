@@ -27,7 +27,7 @@ public class InterestAiService {
                     return interests + futurePlans + futurePlans;
                 })
                 .orElse("");
-        String answer = cohereService.interest(interest+"       above are the information of a student.based on that answer the below questions in 2 lines.      question= "+question);
+        String answer = cohereService.interest(interest+"       above are the information of a student.based on that answer the below questions in 2 lines.if question is not related to this future plan and interest then answer accordingly.      question= "+question);
         return answer;
     }
 
