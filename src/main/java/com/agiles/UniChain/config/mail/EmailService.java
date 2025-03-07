@@ -189,7 +189,6 @@ public class EmailService {
     }
 
 
-
     public void sendStudentQueryEmail(String queryText, String studentName, String studentId, String studentEmail, String studentContact, String facultyEmail) {
         try {
 
@@ -197,21 +196,28 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
             helper.setTo(facultyEmail);
-            helper.setSubject("New Student Query: " + studentName);
+            helper.setSubject("📚 New Student Query from " + studentName);
 
             String emailContent = "<html>" +
-                    "<body style='font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 20px;'>" +
-                    "<div style='max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 10px; " +
-                    "box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);'>" +
-                    "<h2 style='color: #2980b9; text-align: center;'>New Student Query</h2>" +
-                    "<p style='font-size: 16px; color: #34495e;'>Student Name: <strong>" + studentName + "</strong></p>" +
-                    "<p style='font-size: 16px; color: #34495e;'>Student ID: <strong>" + studentId + "</strong></p>" +
-                    "<p style='font-size: 16px; color: #34495e;'>Student Email: <strong>" + studentEmail + "</strong></p>" +
-                    "<p style='font-size: 16px; color: #34495e;'>Student Contact: <strong>" + studentContact + "</strong></p>" +
-                    "<p style='font-size: 16px; color: #e74c3c; margin-top: 20px; font-weight: bold;'>Student's Query:</p>" +
-                    "<p style='font-size: 16px; color: #34495e;'>" + queryText + "</p>" +
-                    "<br>" +
-                    "<p style='font-size: 14px; color: #7f8c8d; text-align: center;'>Please respond to the student's query at your earliest convenience.</p>" +
+                    "<body style='font-family: Arial, sans-serif; background-color: #f4f7fc; padding: 20px;'>" +
+                    "<div style='max-width: 650px; margin: auto; background: #ffffff; padding: 25px; border-radius: 8px; box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);'>" +
+                    "<h2 style='color: #3498db; text-align: center; font-size: 24px; font-weight: 600;'>New Student Query</h2>" +
+                    "<p style='font-size: 16px; color: #34495e;'>Dear Faculty,</p>" +
+                    "<p style='font-size: 16px; color: #34495e;'>You have received a new query from a student. Below are the details:</p>" +
+                    "<table style='width: 100%; margin-top: 20px; border-collapse: collapse;'>" +
+                    "<tr><td style='padding: 8px; font-size: 16px; color: #34495e; font-weight: bold;'>Student Name:</td><td style='padding: 8px; font-size: 16px; color: #2c3e50;'>" + studentName + "</td></tr>" +
+                    "<tr><td style='padding: 8px; font-size: 16px; color: #34495e; font-weight: bold;'>Student ID:</td><td style='padding: 8px; font-size: 16px; color: #2c3e50;'>" + studentId + "</td></tr>" +
+                    "<tr><td style='padding: 8px; font-size: 16px; color: #34495e; font-weight: bold;'>Student Email:</td><td style='padding: 8px; font-size: 16px; color: #2c3e50;'>" + studentEmail + "</td></tr>" +
+                    "<tr><td style='padding: 8px; font-size: 16px; color: #34495e; font-weight: bold;'>Student Contact:</td><td style='padding: 8px; font-size: 16px; color: #2c3e50;'>" + studentContact + "</td></tr>" +
+                    "</table>" +
+                    "<p style='font-size: 16px; color: #e74c3c; margin-top: 30px; font-weight: bold;'>Student's Query:</p>" +
+                    "<blockquote style='font-size: 16px; color: #34495e; border-left: 4px solid #3498db; padding-left: 15px; margin-left: 0px;'>" +
+                    "<p style='margin: 0px;'>" + queryText + "</p>" +
+                    "</blockquote>" +
+                    "<p style='font-size: 14px; color: #7f8c8d; text-align: center; margin-top: 30px;'>Please respond to the student's query at your earliest convenience. If you have any further questions, feel free to reach out.</p>" +
+                    "<div style='text-align: center; margin-top: 30px;'>" +
+                    "<a href='mailto:" + facultyEmail + "' style='background-color: #3498db; color: #ffffff; padding: 12px 20px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;'>Reply to Query</a>" +
+                    "</div>" +
                     "</div>" +
                     "</body>" +
                     "</html>";
@@ -222,6 +228,7 @@ public class EmailService {
             throw new RuntimeException("Failed to send query email", e);
         }
     }
+
 
 
 }
