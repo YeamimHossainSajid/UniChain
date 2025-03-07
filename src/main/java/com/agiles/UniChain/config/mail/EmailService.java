@@ -190,6 +190,38 @@ public class EmailService {
 
 
 
+    public void sendStudentQueryEmail(String queryText, String studentName, String studentId, String studentEmail, String studentContact, String facultyEmail) {
+        try {
+
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+
+            helper.setTo(facultyEmail);
+            helper.setSubject("New Student Query: " + studentName);
+
+            String emailContent = "<html>" +
+                    "<body style='font-family: Arial, sans-serif; background-color: #f2f2f2; padding: 20px;'>" +
+                    "<div style='max-width: 600px; margin: auto; background: #ffffff; padding: 20px; border-radius: 10px; " +
+                    "box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);'>" +
+                    "<h2 style='color: #2980b9; text-align: center;'>New Student Query</h2>" +
+                    "<p style='font-size: 16px; color: #34495e;'>Student Name: <strong>" + studentName + "</strong></p>" +
+                    "<p style='font-size: 16px; color: #34495e;'>Student ID: <strong>" + studentId + "</strong></p>" +
+                    "<p style='font-size: 16px; color: #34495e;'>Student Email: <strong>" + studentEmail + "</strong></p>" +
+                    "<p style='font-size: 16px; color: #34495e;'>Student Contact: <strong>" + studentContact + "</strong></p>" +
+                    "<p style='font-size: 16px; color: #e74c3c; margin-top: 20px; font-weight: bold;'>Student's Query:</p>" +
+                    "<p style='font-size: 16px; color: #34495e;'>" + queryText + "</p>" +
+                    "<br>" +
+                    "<p style='font-size: 14px; color: #7f8c8d; text-align: center;'>Please respond to the student's query at your earliest convenience.</p>" +
+                    "</div>" +
+                    "</body>" +
+                    "</html>";
+
+            helper.setText(emailContent, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            throw new RuntimeException("Failed to send query email", e);
+        }
+    }
 
 
 }

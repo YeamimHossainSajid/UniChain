@@ -12,4 +12,5 @@ import java.io.IOException;
 public interface FacultyService extends IService<Faculty, FacultyRequestDto, GenericSearchDto> {
     public void createV2(FacultyRequestDto requestDto, MultipartFile file) throws IOException;
 
+    public void sendMail(Long userId, String name, String id, String email, String phone, String text);
 }

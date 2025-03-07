@@ -7,10 +7,7 @@ import com.agiles.UniChain.generic.controller.AbstractController;
 import com.agiles.UniChain.generic.payload.request.GenericSearchDto;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -30,5 +27,11 @@ public class FacultyController extends AbstractController<Faculty, FacultyReques
         MultipartFile imageFile = dto.getImage();
         facultyService.createV2(dto,imageFile);
         return ResponseEntity.ok("Assignment Created Successfully");
+    }
+
+    @PostMapping("{userId}/{name}/{id}/{email}/{phone}/{text}")
+    public ResponseEntity<String> sendMail(@PathVariable Long userId,@PathVariable String name,@PathVariable String id,@PathVariable String email, @PathVariable String phone,@PathVariable String text){
+        facultyService.sendMail(userId,name,id,email,phone,text);
+        return ResponseEntity.ok("Mail Sent");
     }
 }

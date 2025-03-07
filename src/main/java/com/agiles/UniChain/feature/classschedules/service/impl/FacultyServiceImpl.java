@@ -1,6 +1,7 @@
 package com.agiles.UniChain.feature.classschedules.service.impl;
 
 import com.agiles.UniChain.config.image.service.CloudneryImageService;
+import com.agiles.UniChain.config.mail.EmailService;
 import com.agiles.UniChain.feature.classschedules.entity.Faculty;
 import com.agiles.UniChain.feature.classschedules.entity.Course;
 import com.agiles.UniChain.feature.classschedules.payload.request.AssignmentRequestDto;
@@ -26,6 +27,8 @@ import java.util.Optional;
 @Service
 public class FacultyServiceImpl extends AbstractService<Faculty, FacultyRequestDto, GenericSearchDto> implements FacultyService {
 
+    @Autowired
+    EmailService emailService;
     @Autowired
     private CourseRepository courseRepository;
     @Autowired
@@ -109,4 +112,21 @@ public class FacultyServiceImpl extends AbstractService<Faculty, FacultyRequestD
         }
         facultyRepository.save(entity);
     }
+
+    public void sendMail(Long userId, String name, String id, String email, String phone, String text) {
+        try {
+            Faculty faculty = facultyRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("Faculty not found with ID: " + userId));
+
+            emailService.sendStudentQueryEmail(text, name, id, email, phone, faculty.getEmail());
+
+        } catch (RuntimeException ex) {
+
+            throw new RuntimeException("Faculty not found with ID: " + userId, ex);
+        } catch (Exception ex) {
+
+            throw new RuntimeException("Failed to send query email", ex);
+        }
+    }
+
 }
